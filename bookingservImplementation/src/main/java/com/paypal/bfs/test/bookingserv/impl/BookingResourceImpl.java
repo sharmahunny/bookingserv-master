@@ -12,13 +12,16 @@ import jersey.repackaged.com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RestController
+@RequestMapping("/v1/bfs/booking")
 public class BookingResourceImpl implements BookingResource {
 
     @Autowired
@@ -28,6 +31,7 @@ public class BookingResourceImpl implements BookingResource {
     private BookingRepository bookingRepository;
 
     @Override
+    @PostMapping("")
     public ResponseEntity<Booking> create(Booking booking) {
         bookingValidationService.validate(booking);
         BookingModel bookingModel = JsonObjectToDBModelTransformer.transformToBookingDBEntity(booking);
@@ -38,6 +42,7 @@ public class BookingResourceImpl implements BookingResource {
     }
 
     @Override
+    @GetMapping("")
     public ResponseEntity<List<Booking>> getAll() {
 
         List<BookingModel> listFromDb = bookingRepository.getAll();
